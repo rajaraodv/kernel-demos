@@ -156,7 +156,7 @@ function runCard(r){
     : `<div class="none">No console or network errors captured.</div>`;
   const video = r.replayFile
     ? `<div class="videowrap">
-         <video controls preload="auto" src="${r.replayFile}#t=0.6"></video>
+         <video controls preload="auto" src="${BASE}${r.replayFile}#t=0.6"></video>
          <div class="playbtn" onclick="const v=this.previousElementSibling; v.play(); this.remove();"><span class="disc"></span></div>
        </div>`
     : `<div class="novid">Replay not available</div>`;
@@ -187,7 +187,10 @@ function runCard(r){
   </div>`;
 }
 
-fetch("results.json?"+Date.now()).then(r=>r.json()).then(d=>{
+// absolute base so assets load no matter what URL serves this page
+// (clean rewrite /demos/agent-observability, trailing slash, or .../index.html)
+const BASE = "/demos/agent-observability/";
+fetch(BASE+"results.json?"+Date.now()).then(r=>r.json()).then(d=>{
   document.getElementById("ts").textContent = new Date(d.generatedAt).toLocaleString();
   const passPct = d.total ? (d.passed/d.total*100) : 0;
   const failPct = 100 - passPct;
