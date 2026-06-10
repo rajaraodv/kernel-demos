@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Run Observability</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --page:#f7f7f5;
+    --ink:#37352f;
+    --mut:#787774;
+    --faint:#9b9a97;
+    --line:#ebeae8;
+    --line2:#e3e2df;
+    --hover:#f5f5f4;
+    --green:#3f7e5e; --green-bg:#edf3ee; --green-bd:#cfe4d6;
+    --red:#c0473f;   --red-bg:#fbecec;   --red-bd:#f0d3d1;
+    --amber:#9a6a2f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--page);color:var(--ink);
+    font:14.5px/1.5 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 26px 90px}
+
+  /* top bar */
+  .topbar{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--page);z-index:5}
+  .mark{width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+  .topbar .crumb{font-size:13.5px;color:var(--mut)}
+  .topbar .crumb b{color:var(--ink);font-weight:600}
+  .topbar .ts{margin-left:auto;font-size:12.5px;color:var(--faint)}
+
+  /* title block */
+  .titleblock{padding:40px 0 22px}
+  .titleblock .ico{font-size:40px;line-height:1;margin-bottom:14px}
+  h1{font-size:33px;font-weight:700;letter-spacing:-.015em;line-height:1.15}
+  .titleblock p{color:var(--mut);font-size:15px;margin-top:8px;max-width:620px}
+
+  /* summary callout */
+  .callout{display:flex;align-items:center;gap:18px;background:var(--bg);border:1px solid var(--line2);border-radius:10px;padding:18px 20px;margin-bottom:10px}
+  .callout .big{font-size:24px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+  .callout .meter{flex:1;min-width:120px}
+  .meter .track{height:8px;border-radius:6px;background:#edece9;overflow:hidden;display:flex}
+  .meter .track i{display:block;height:100%}
+  .meter .track i.pass{background:var(--green)}
+  .meter .track i.fail{background:var(--red)}
+  .meter .legend{display:flex;gap:16px;margin-top:9px;font-size:12.5px;color:var(--mut)}
+  .meter .legend span{display:inline-flex;align-items:center;gap:6px}
+  .meter .legend .sw{width:9px;height:9px;border-radius:3px}
+  .sw.pass{background:var(--green)} .sw.fail{background:var(--red)}
+
+  .meta-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:var(--bg);margin-bottom:34px}
+  .tile{padding:16px 18px;border-right:1px solid var(--line)}
+  .tile:last-child{border-right:0}
+  .tile .v{font-size:22px;font-weight:700}
+  .tile .l{font-size:12px;color:var(--mut);margin-top:3px}
+  .tile .v.g{color:var(--green)} .tile .v.r{color:var(--red)}
+
+  /* section label */
+  .seclabel{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin:0 2px 10px}
+
+  /* run rows (Notion database feel) */
+  .runs{background:var(--bg);border:1px solid var(--line2);border-radius:10px;overflow:hidden}
+  .run{border-bottom:1px solid var(--line)}
+  .run:last-child{border-bottom:0}
+  .rhead{display:flex;align-items:center;gap:13px;padding:13px 18px;cursor:pointer;user-select:none}
+  .rhead:hover{background:var(--hover)}
+  .status{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:500;padding:3px 9px 3px 8px;border-radius:6px;flex:none;border:1px solid transparent}
+  .status.pass{color:var(--green);background:var(--green-bg);border-color:var(--green-bd)}
+  .status.fail{color:var(--red);background:var(--red-bg);border-color:var(--red-bd)}
+  .status .pip{width:6px;height:6px;border-radius:50%;background:currentColor}
+  .nm{font-weight:550;font-size:14.5px}
+  .tg{color:var(--faint);font-size:12.5px;margin-top:1px}
+  .grow{flex:1;min-width:0}
+  .grow .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dur{color:var(--faint);font-size:12.5px;font-variant-numeric:tabular-nums;flex:none}
+  .chev{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--line2);border-radius:7px;background:var(--bg);color:var(--mut);font-size:12px;font-weight:500;transition:background .12s,border-color .12s}
+  .chev .car{display:inline-block;transition:transform .15s ease;font-size:9px}
+  .rhead:hover .chev{border-color:var(--faint);color:var(--ink);background:var(--hover)}
+  .run.open .chev .car{transform:rotate(90deg)}
+  .chev .lbl-open{display:none}
+  .run.open .chev .lbl-open{display:inline}
+  .run.open .chev .lbl-shut{display:none}
+
+  .reason{margin:0 18px 14px 18px;padding:11px 13px;background:var(--red-bg);border:1px solid var(--red-bd);border-radius:8px;color:#9a3b35;font-size:13.5px}
+  .reason b{font-weight:600}
+
+  .body{display:none;grid-template-columns:1.1fr 1fr;gap:18px;padding:2px 18px 22px}
+  .run.open .body{display:grid}
+  .pane{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:var(--bg)}
+  .pane h4{font-size:11.5px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--faint);padding:11px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+  .videowrap{position:relative}
+  video{width:100%;display:block;background:#1c1c1a;aspect-ratio:16/10;object-fit:contain}
+  .playbtn{position:absolute;inset:0;display:grid;place-items:center;cursor:pointer;background:rgba(28,28,26,.16);transition:background .15s}
+  .playbtn:hover{background:rgba(28,28,26,.30)}
+  .playbtn .disc{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.96);display:grid;place-items:center;box-shadow:0 3px 14px rgba(0,0,0,.30)}
+  .playbtn .disc::before{content:"";border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #1c1c1a;margin-left:4px}
+  .novid{padding:36px 14px;text-align:center;color:var(--faint);font-size:13px}
+  .panefoot{padding:10px 14px;border-top:1px solid var(--line)}
+  .panefoot a{color:var(--ink);text-decoration:none;font-size:12.5px;border-bottom:1px solid var(--line2)}
+  .panefoot a:hover{border-color:var(--faint)}
+
+  .timeline{padding:8px 8px;max-height:280px;overflow:auto}
+  .tl{display:grid;grid-template-columns:46px 1fr;gap:10px;padding:5px 10px;border-radius:6px;font-size:13.5px}
+  .tl:hover{background:var(--hover)}
+  .tl .tt{color:var(--faint);font-variant-numeric:tabular-nums;font-size:11.5px;text-align:right;padding-top:1px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .tl .mm{color:var(--ink)}
+  .tl.err .mm{color:var(--red)}
+
+  .errs{padding:9px 14px;border-top:1px solid var(--line)}
+  .errs .e{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;color:#9a3b35;padding:3px 0;word-break:break-all;line-height:1.45}
+  .errs .none{color:var(--faint);font-size:12.5px}
+
+  .empty{text-align:center;color:var(--mut);padding:90px 20px;background:var(--bg);border:1px solid var(--line2);border-radius:10px}
+  .empty code{background:var(--page);padding:2px 7px;border-radius:5px;font-size:13px}
+
+  @media(max-width:760px){
+    .meta-tiles{grid-template-columns:repeat(2,1fr)}
+    .tile:nth-child(2){border-right:0}
+    .body{grid-template-columns:1fr}
+    .callout{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap" style="display:flex;align-items:center;gap:10px;padding:0;max-width:960px;width:100%">
+      <div class="mark">K</div>
+      <div class="crumb"><b>Agent Observability</b> · QA Suite</div>
+      <div class="ts" id="ts">—</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="titleblock">
+      <div class="ico">🧪</div>
+      <h1>Agent Run Observability</h1>
+      <p>Every check runs on a live Kernel browser, records a replay, and logs each step — so you can see at a glance whether the agent succeeded, and watch exactly why it didn't.</p>
+    </div>
+    <div id="app"><div class="empty">Loading <code>results.json</code>…</div></div>
+  </div>
+
+<script>
+const fmt = (ms) => (ms/1000).toFixed(1) + "s";
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function runCard(r){
+  const steps = r.steps.map(s =>
+    `<div class="tl ${/FAIL|⚠/.test(s.msg)?'err':''}"><div class="tt">${fmt(s.t)}</div><div class="mm">${esc(s.msg)}</div></div>`
+  ).join("");
+  const errs = r.consoleErrors.length
+    ? r.consoleErrors.map(e=>`<div class="e">${esc(e)}</div>`).join("")
+    : `<div class="none">No console or network errors captured.</div>`;
+  const video = r.replayFile
+    ? `<div class="videowrap">
+         <video controls preload="auto" src="${r.replayFile}#t=0.6"></video>
+         <div class="playbtn" onclick="const v=this.previousElementSibling; v.play(); this.remove();"><span class="disc"></span></div>
+       </div>`
+    : `<div class="novid">Replay not available</div>`;
+  const src = r.replaySource === "kernel-native" ? "Kernel native replay" : "Replay";
+  const live = r.liveViewUrl ? `<div class="panefoot"><a href="${r.liveViewUrl}" target="_blank">Open live view ↗</a></div>` : "";
+  const reason = r.status==="fail" && r.reason
+    ? `<div class="reason"><b>Why it failed:</b> ${esc(r.reason)}</div>` : "";
+
+  return `<div class="run ${r.status}">
+    <div class="rhead" onclick="this.parentNode.classList.toggle('open')">
+      <span class="status ${r.status}"><span class="pip"></span>${r.status==="pass"?"Pass":"Fail"}</span>
+      <div class="grow"><div class="nm">${esc(r.name)}</div><div class="tg">${esc(r.target)}</div></div>
+      <span class="dur">${fmt(r.durationMs)}</span>
+      <span class="chev"><span class="car">▶</span><span class="lbl-shut">Watch</span><span class="lbl-open">Hide</span></span>
+    </div>
+    ${reason}
+    <div class="body">
+      <div class="pane">
+        <h4>🎬 ${src}</h4>${video}${live}
+      </div>
+      <div class="pane">
+        <h4>⏱ Agent timeline</h4>
+        <div class="timeline">${steps}</div>
+        <h4>Console &amp; network errors</h4>
+        <div class="errs">${errs}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+fetch("results.json?"+Date.now()).then(r=>r.json()).then(d=>{
+  document.getElementById("ts").textContent = new Date(d.generatedAt).toLocaleString();
+  const passPct = d.total ? (d.passed/d.total*100) : 0;
+  const failPct = 100 - passPct;
+  const replays = d.runs.filter(r=>r.replayFile).length;
+  document.getElementById("app").innerHTML = `
+    <div class="callout">
+      <div class="big">${d.passed} of ${d.total} passed</div>
+      <div class="meter">
+        <div class="track"><i class="pass" style="width:${passPct}%"></i><i class="fail" style="width:${failPct}%"></i></div>
+        <div class="legend">
+          <span><span class="sw pass"></span>${d.passed} passed</span>
+          <span><span class="sw fail"></span>${d.failed} failed</span>
+        </div>
+      </div>
+    </div>
+    <div class="meta-tiles">
+      <div class="tile"><div class="v">${d.total}</div><div class="l">Total checks</div></div>
+      <div class="tile"><div class="v g">${d.passed}</div><div class="l">Passing</div></div>
+      <div class="tile"><div class="v r">${d.failed}</div><div class="l">Failing</div></div>
+      <div class="tile"><div class="v">${replays}</div><div class="l">Replays captured</div></div>
+    </div>
+    <div class="seclabel">Runs</div>
+    <div class="runs">${d.runs.map(runCard).join("")}</div>`;
+  document.querySelectorAll(".run").forEach(el=>el.classList.add("open"));
+}).catch(()=>{
+  document.getElementById("app").innerHTML =
+    `<div class="empty">No <code>results.json</code> yet — run <code>node runner.mjs</code> first.</div>`;
+});
+</script>
+</body>
+</html>

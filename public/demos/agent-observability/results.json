@@ -1,0 +1,339 @@
+{
+  "generatedAt": "2026-06-10T20:19:19.280Z",
+  "total": 6,
+  "passed": 3,
+  "failed": 3,
+  "replaySource": "screencast",
+  "runs": [
+    {
+      "id": "homepage-loads",
+      "name": "Marketing site loads",
+      "target": "https://example.com/",
+      "status": "pass",
+      "reason": null,
+      "steps": [
+        {
+          "t": 6,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 550,
+          "msg": "Browser ready (session oecxcms9…)"
+        },
+        {
+          "t": 843,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1556,
+          "msg": "Navigate to example.com"
+        },
+        {
+          "t": 2436,
+          "msg": "Read page title"
+        },
+        {
+          "t": 2525,
+          "msg": "Title is \"Example Domain\""
+        },
+        {
+          "t": 3429,
+          "msg": "✓ Homepage healthy"
+        },
+        {
+          "t": 3429,
+          "msg": "RESULT: PASS ✅"
+        },
+        {
+          "t": 4930,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [],
+      "liveViewUrl": "https://proxy.yul-pensive-mestorf.onkernel.com:8443/browser/live/fzg9sDek4nvv",
+      "replayFile": "replays/homepage-loads.mp4",
+      "replaySource": "screencast",
+      "durationMs": 5237
+    },
+    {
+      "id": "login-valid",
+      "name": "Login with valid credentials",
+      "target": "https://the-internet.herokuapp.com/login",
+      "status": "pass",
+      "reason": null,
+      "steps": [
+        {
+          "t": 1,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 525,
+          "msg": "Browser ready (session appnuxkt…)"
+        },
+        {
+          "t": 856,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1571,
+          "msg": "Open login page"
+        },
+        {
+          "t": 2480,
+          "msg": "Type username"
+        },
+        {
+          "t": 6182,
+          "msg": "Type password"
+        },
+        {
+          "t": 13017,
+          "msg": "Submit form"
+        },
+        {
+          "t": 13982,
+          "msg": "Wait for secure area"
+        },
+        {
+          "t": 15761,
+          "msg": "✓ Login succeeded"
+        },
+        {
+          "t": 15761,
+          "msg": "RESULT: PASS ✅"
+        },
+        {
+          "t": 17790,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=https%3A%2F%2Fthe-internet.herokuapp.com%2Flogin&u=oeu1781122709491r0.15896296045808933&wxhr=true&t=1781122709494&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=engagement&g=298283957&u=oeu1781122709491r0.15896296045808933&wxhr=true&t=1781122710894&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=https%3A%2F%2Fthe-internet.herokuapp.com%2Fsecure&u=oeu1781122709491r0.15896296045808933&wxhr=true&t=1781122721590&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=engagement&g=298283957&u=oeu1781122709491r0.15896296045808933&wxhr=true&t=1781122710894&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=https%3A%2F%2Fthe-internet.herokuapp.com%2Flogin&u=oeu1781122709491r0.15896296045808933&wxhr=true&t=1781122709494&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+      ],
+      "liveViewUrl": "https://proxy.yul-upbeat-herschel.onkernel.com:8443/browser/live/EcOnO1h9B1Ni",
+      "replayFile": "replays/login-valid.mp4",
+      "replaySource": "screencast",
+      "durationMs": 18103
+    },
+    {
+      "id": "search-results",
+      "name": "Catalog returns products",
+      "target": "https://books.toscrape.com/",
+      "status": "pass",
+      "reason": null,
+      "steps": [
+        {
+          "t": 0,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 445,
+          "msg": "Browser ready (session ngnbr8hl…)"
+        },
+        {
+          "t": 747,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1434,
+          "msg": "Open catalog"
+        },
+        {
+          "t": 2383,
+          "msg": "Browse the shelf"
+        },
+        {
+          "t": 4963,
+          "msg": "Count product cards"
+        },
+        {
+          "t": 5060,
+          "msg": "Found 20 products"
+        },
+        {
+          "t": 5175,
+          "msg": "First product: \"A Light in the Attic\""
+        },
+        {
+          "t": 5879,
+          "msg": "✓ Catalog healthy"
+        },
+        {
+          "t": 5879,
+          "msg": "RESULT: PASS ✅"
+        },
+        {
+          "t": 7560,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [
+        "Mixed Content: The page at 'https://books.toscrape.com/' was loaded over HTTPS, but requested an insecure script 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'. This request has been blocked; the content must be served over HTTPS.",
+        "requestfailed: http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js (mixed-content)"
+      ],
+      "liveViewUrl": "https://proxy.jfk-great-kalam.onkernel.com:8443/browser/live/LWseuB7gcSbk",
+      "replayFile": "replays/search-results.mp4",
+      "replaySource": "screencast",
+      "durationMs": 7897
+    },
+    {
+      "id": "price-threshold",
+      "name": "Featured price under $50",
+      "target": "https://books.toscrape.com/",
+      "status": "fail",
+      "reason": "Price £51.77 exceeds $50 threshold",
+      "steps": [
+        {
+          "t": 0,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 489,
+          "msg": "Browser ready (session o5j04d3j…)"
+        },
+        {
+          "t": 802,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1510,
+          "msg": "Open catalog"
+        },
+        {
+          "t": 2507,
+          "msg": "Scroll to featured item"
+        },
+        {
+          "t": 4766,
+          "msg": "Read first product price"
+        },
+        {
+          "t": 4860,
+          "msg": "Price is £51.77"
+        },
+        {
+          "t": 5766,
+          "msg": "RESULT: FAIL ❌ — Price £51.77 exceeds $50 threshold"
+        },
+        {
+          "t": 7380,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [
+        "Mixed Content: The page at 'https://books.toscrape.com/' was loaded over HTTPS, but requested an insecure script 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'. This request has been blocked; the content must be served over HTTPS.",
+        "requestfailed: http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js (mixed-content)"
+      ],
+      "liveViewUrl": "https://proxy.yul-upbeat-herschel.onkernel.com:8443/browser/live/sLmq0Q2LzsmQ",
+      "replayFile": "replays/price-threshold.mp4",
+      "replaySource": "screencast",
+      "durationMs": 7648
+    },
+    {
+      "id": "checkout-button",
+      "name": "Checkout button present (BROKEN SELECTOR)",
+      "target": "https://books.toscrape.com/",
+      "status": "fail",
+      "reason": "page.waitForSelector: Timeout 6000ms exceeded.",
+      "steps": [
+        {
+          "t": 0,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 506,
+          "msg": "Browser ready (session w3j5les4…)"
+        },
+        {
+          "t": 863,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1509,
+          "msg": "Open catalog"
+        },
+        {
+          "t": 2336,
+          "msg": "Scroll looking for checkout"
+        },
+        {
+          "t": 5222,
+          "msg": "Look for #checkout-now button"
+        },
+        {
+          "t": 11230,
+          "msg": "RESULT: FAIL ❌ — page.waitForSelector: Timeout 6000ms exceeded."
+        },
+        {
+          "t": 13034,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [
+        "Mixed Content: The page at 'https://books.toscrape.com/' was loaded over HTTPS, but requested an insecure script 'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'. This request has been blocked; the content must be served over HTTPS.",
+        "requestfailed: http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js (mixed-content)"
+      ],
+      "liveViewUrl": "https://proxy.yul-pensive-mestorf.onkernel.com:8443/browser/live/NfmPsHgQDKk1",
+      "replayFile": "replays/checkout-button.mp4",
+      "replaySource": "screencast",
+      "durationMs": 13334
+    },
+    {
+      "id": "api-health-500",
+      "name": "Status endpoint returns 200",
+      "target": "https://the-internet.herokuapp.com/status_codes/500",
+      "status": "fail",
+      "reason": "Health check failed — endpoint returned 500",
+      "steps": [
+        {
+          "t": 0,
+          "msg": "Spinning up Kernel browser…"
+        },
+        {
+          "t": 480,
+          "msg": "Browser ready (session ccxob29y…)"
+        },
+        {
+          "t": 838,
+          "msg": "Recording via screenshot capture (free tier)"
+        },
+        {
+          "t": 1488,
+          "msg": "Hit status endpoint"
+        },
+        {
+          "t": 1909,
+          "msg": "Endpoint responded 500"
+        },
+        {
+          "t": 3013,
+          "msg": "RESULT: FAIL ❌ — Health check failed — endpoint returned 500"
+        },
+        {
+          "t": 4371,
+          "msg": "Replay saved 💾 (screencast)"
+        }
+      ],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+        "requestfailed: https://298279967.log.optimizely.com/event?a=298279967&d=298279967&y=false&n=https%3A%2F%2Fthe-internet.herokuapp.com%2Fstatus_codes%2F500&u=oeu1781122756413r0.9898288243851978&wxhr=true&t=1781122756416&f=298349752,318188263 (net::ERR_TUNNEL_CONNECTION_FAILED)",
+        "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)"
+      ],
+      "liveViewUrl": "https://proxy.yul-pensive-mestorf.onkernel.com:8443/browser/live/UTspYZevfVgW",
+      "replayFile": "replays/api-health-500.mp4",
+      "replaySource": "screencast",
+      "durationMs": 4665
+    }
+  ]
+}

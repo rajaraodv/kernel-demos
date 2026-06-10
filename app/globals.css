@@ -1,0 +1,58 @@
+:root{
+  --bg:#ffffff;
+  --page:#f7f7f5;
+  --ink:#37352f;
+  --mut:#787774;
+  --faint:#9b9a97;
+  --line:#ebeae8;
+  --line2:#e3e2df;
+  --hover:#f5f5f4;
+  --accent:#37352f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--ink)}
+body{
+  font:15px/1.55 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,"Helvetica Neue",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+
+.shell{max-width:920px;margin:0 auto;padding:0 26px 90px}
+
+.topbar{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--page);z-index:5}
+.mark{width:22px;height:22px;border-radius:6px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
+.topbar .crumb{font-size:13.5px;color:var(--mut)}
+.topbar .crumb b{color:var(--ink);font-weight:600}
+.topbar .right{margin-left:auto;font-size:12.5px;color:var(--faint)}
+.topbar .right a{border-bottom:1px solid var(--line2)}
+.topbar .right a:hover{border-color:var(--faint)}
+
+.hero{padding:54px 0 30px}
+.hero .ico{font-size:42px;line-height:1;margin-bottom:16px}
+.hero h1{font-size:36px;font-weight:700;letter-spacing:-.02em;line-height:1.12}
+.hero p{color:var(--mut);font-size:16px;margin-top:10px;max-width:600px}
+
+.seclabel{font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin:30px 2px 12px}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.card{display:block;background:var(--bg);border:1px solid var(--line2);border-radius:12px;padding:20px;transition:border-color .12s,box-shadow .12s,transform .12s}
+.card:hover{border-color:#d6d5d1;box-shadow:0 1px 3px rgba(15,15,15,.05);transform:translateY(-1px)}
+.card .emoji{font-size:26px;line-height:1}
+.card h3{font-size:16.5px;font-weight:650;margin:12px 0 6px;display:flex;align-items:center;gap:8px}
+.card p{color:var(--mut);font-size:13.5px;line-height:1.5}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.card .tag{font-size:11.5px;color:var(--mut);background:var(--page);border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.card .go{margin-top:14px;font-size:13px;color:var(--ink);font-weight:550}
+.card .go .ar{transition:transform .12s}
+.card:hover .go .ar{transform:translateX(3px)}
+
+.card.soon{pointer-events:none;opacity:.6;border-style:dashed;background:transparent}
+.card.soon h3{color:var(--faint)}
+
+.foot{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12.5px}
+.foot b{color:var(--mut);font-weight:600}
+
+@media(max-width:680px){
+  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:29px}
+}
