@@ -12,6 +12,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { mkdir, writeFile, stat, rm } from "node:fs/promises";
+import { readFileSync, existsSync } from "node:fs";
 import { chromium } from "playwright-core";
 import { SUITE } from "./suite.mjs";
 
@@ -21,8 +22,29 @@ const execFileP = promisify(execFile);
 const OUT_DIR = "public/demos/agent-observability";
 const REPLAY_DIR = `${OUT_DIR}/replays`;
 
+// Resolve config from the REAL environment first (e.g. Vercel env vars, or an exported
+// shell var). Then fill any gaps from a local .env.local / .env file if one exists.
+// Real env vars always win, so the same code works in production and locally — no edits.
+function loadEnvFiles() {
+  for (const file of [".env.local", ".env"]) {
+    if (!existsSync(file)) continue;
+    for (const raw of readFileSync(file, "utf8").split(/\r?\n/)) {
+      const line = raw.trim();
+      if (!line || line.startsWith("#")) continue;
+      const eq = line.indexOf("=");
+      if (eq === -1) continue;
+      const key = line.slice(0, eq).trim();
+      const val = line.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
+      if (!(key in process.env)) process.env[key] = val; // don't override real env
+    }
+  }
+}
+loadEnvFiles();
+
 if (!process.env.KERNEL_API_KEY) {
-  console.error("✗ Set KERNEL_API_KEY first:  export KERNEL_API_KEY=sk_...");
+  console.error("✗ KERNEL_API_KEY not found.");
+  console.error("  Set it as an environment variable (Vercel project env, or");
+  console.error("  `export KERNEL_API_KEY=sk_...`), or add it to a local .env.local file.");
   process.exit(1);
 }
 
