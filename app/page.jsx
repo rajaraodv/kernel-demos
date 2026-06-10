@@ -2,7 +2,7 @@ const DEMOS = [
   {
     emoji: "🧪",
     title: "Agent Run Observability",
-    href: "/demos/agent-observability/index.html",
+    href: "/demos/agent-observability",
     blurb:
       "Runs a suite of browser QA checks on live Kernel browsers, records an MP4 of every run, and shows pass/fail with the replay, step timeline, and error log — so you can see at a glance whether the agent did its job, and watch exactly why it didn't.",
     tags: ["Kernel browsers", "Playwright", "MP4 replay", "Observability"],
@@ -10,7 +10,7 @@ const DEMOS = [
   {
     emoji: "📊",
     title: "Marketing Teardown",
-    href: "/teardown.html",
+    href: "/teardown",
     blurb:
       "A presentation-style teardown of Kernel's developer journey, benchmarked against Stripe (DX gold standard) and Steel — what's working, what's missing, and the highest-leverage fixes.",
     tags: ["Strategy", "Developer experience", "Positioning"],
