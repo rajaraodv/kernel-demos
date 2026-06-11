@@ -1,5 +1,13 @@
 const DEMOS = [
   {
+    emoji: "🛍️",
+    title: "Agent Commerce (Kernel × Stripe)",
+    href: "/store",
+    blurb:
+      "Press one button and an AI agent spins up a real cloud browser, finds the product, and pays for it with Stripe — you watch it live, then the charge shows up in your Stripe Dashboard. The web's two halves for agents: browse (Kernel) + pay (Stripe).",
+    tags: ["Kernel browsers", "Stripe Checkout", "Agentic commerce"],
+  },
+  {
     emoji: "🧪",
     title: "Agent Run Observability",
     href: "/demos/agent-observability",
